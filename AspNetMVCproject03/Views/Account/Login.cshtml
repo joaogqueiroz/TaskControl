@@ -1,0 +1,49 @@
+﻿@model AspNetMVCproject03.Models.AccountLoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <!--CSS FILES HERE USING LINK TAG-->
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body class="bg-dark text-white">
+    <div class="mt-5 col-md-4 offset-md-4">
+        <div class="card bg-secondary">
+            <div class="card-body text-center rounded-0">
+                <h5>Login</h5>
+                <hr />
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @autocomplete = "off" }))
+                {
+                    <label>Email</label>
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </span>
+                    <br />
+
+                    <label>Password</label>
+                    @Html.PasswordFor(model => model.PassWord, new { @class = "form-control" })
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(model => model.PassWord)
+                    </span>
+
+                    <br />
+
+                    <div class="d-grid">
+                        <input type="submit" class="btn btn-dark" value="Enter" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <!--JS FILES HERE USING SCRIPT TAG-->
+<script src="~/js/bootstrap.js"></script>
+</body>
+</html>
