@@ -1,4 +1,4 @@
-﻿@model AspNetMVCproject03.Models.AccountLoginModel
+﻿@model AspNetMVCproject03.Models.AccountRegistrationModel
 @{
     Layout = null;
 }
@@ -16,10 +16,17 @@
     <div class="mt-5 col-md-4 offset-md-4">
         <div class="card bg-secondary">
             <div class="card-body text-center rounded-0">
-                <h5>Login</h5>
+                <h5>Registration</h5>
                 <hr />
-                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @autocomplete = "off" }))
+                @using (Html.BeginForm("Registration", "Account", FormMethod.Post, new { @autocomplete = "off" }))
                 {
+                    <label>Name</label>
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </span>
+                    <br />
+
                     <label>Email</label>
                     @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
                     <span class="text-danger">
@@ -33,19 +40,25 @@
                         @Html.ValidationMessageFor(model => model.PassWord)
                     </span>
 
+                    <label>Password Confirmation</label>
+                    @Html.PasswordFor(model => model.PassWordConfirm, new { @class = "form-control" })
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(model => model.PassWordConfirm)
+                    </span>
+
                     <br />
 
                     <div class="d-grid">
-                        <input type="submit" class="btn btn-dark" value="Enter" />
+                        <input type="submit" class="btn btn-dark" value="Register" />
                         <br />
-                        <a href="/Account/Registration" class="btn btn-light">Register</a>
+                        <a href="/Account/Login" class="btn btn-light">Login</a>
                     </div>
                 }
             </div>
         </div>
     </div>
-    
+
     <!--JS FILES HERE USING SCRIPT TAG-->
-<script src="~/js/bootstrap.js"></script>
+    <script src="~/js/bootstrap.js"></script>
 </body>
 </html>

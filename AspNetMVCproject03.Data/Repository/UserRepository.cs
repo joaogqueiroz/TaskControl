@@ -5,8 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace AspNetMVCproject03.Data.Repository
 {
@@ -22,8 +21,18 @@ namespace AspNetMVCproject03.Data.Repository
         public void Create(User user)
         {
             var query = @"
-                        INSERT INTO USER_TB(USERID, NAME, EMAIL, PASSWORD, REGISTRATIONDATE)
-                                     VALUES(NEWGUID(), @Name, @Email, @PassWord, GETDATE())";
+                        INSERT INTO USER_TB(
+                            USERID, 
+                            NAME, 
+                            EMAIL, 
+                            PASSWORD, 
+                            REGISTRATIONDATE)
+                        VALUES(
+                            NEWGUID(), 
+                            @Name, 
+                            @Email,                               
+                            CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord, 2), 
+                            GETDATE())";                                   //2 FOR HEXADECIMAL
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Execute(query, user);
@@ -37,7 +46,7 @@ namespace AspNetMVCproject03.Data.Repository
                           SET
                              NAME = @Name
                              EMAIL = @Email
-                             PASSWORD = @PassWord
+                             PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord, 2)
                           WHERE
                                USERID = @UserID";
             using (var connection = new SqlConnection(_connectionString)) 
@@ -94,7 +103,8 @@ namespace AspNetMVCproject03.Data.Repository
         {
             var query = @"SELECT * FROM USER_TB
                           WHERE EMAIL = @email
-                          AND PASSWORD = @password";
+                          AND PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord, 2)
+                          ";
 
             using (var connection = new SqlConnection(_connectionString))
             {

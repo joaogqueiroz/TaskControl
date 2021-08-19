@@ -1,3 +1,5 @@
+using AspNetMVCproject03.Data.Interfaces;
+using AspNetMVCproject03.Data.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +26,11 @@ namespace AspNetMVCproject03
         {
             //This command enable MVC
             services.AddControllersWithViews();
+
+            //DB connectionString
+            var connectionString = Configuration.GetConnectionString("db_coonection");
+            //Dependency injection
+            services.AddTransient<IUserRepository, UserRepository>(map => new UserRepository(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

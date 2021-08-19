@@ -23,5 +23,20 @@ namespace AspNetMVCproject03.Controllers
             }
             return View();
         }
+
+        public IActionResult Registration()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Registration(AccountRegistrationModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+            return View();
+        }
     }
 }
