@@ -28,15 +28,21 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Control Tasks
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/Task/Registration">Create Task</a></li>
-                            <li><a class="dropdown-item" href="/Task/Consult">Consult Task </a></li>
+                        <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item bg-dark text-white" href="/Task/Registration">Create Task</a></li>
+                            <li><a class="dropdown-item bg-dark text-white" href="/Task/Consult">Consult Task </a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/Task/Report">Task Report</a></li>
+                            <li><a class="dropdown-item bg-dark text-white" href="/Task/Report">Task Report</a></li>
                         </ul>
                     </li>                    
                 </ul>
                 <form class="d-flex">
+                    <div class="text-white">
+                        @User.Identity.Name &nbsp;&nbsp;&nbsp;
+                        <a href="/Account/Logout" class="btn btn-outline-danger btn-sm" 
+                           onclick="return confirm('Do you want to logout ?')">
+                        Logout</a>
+                    </div>
                 </form>
             </div>
         </div>

@@ -65,6 +65,13 @@ namespace AspNetMVCproject03.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            //Delete user cookie
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
+        }
+
         public IActionResult Registration()
         {
             return View();
