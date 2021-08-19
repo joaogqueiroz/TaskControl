@@ -28,10 +28,10 @@ namespace AspNetMVCproject03.Data.Repository
                             PASSWORD, 
                             REGISTRATIONDATE)
                         VALUES(
-                            NEWGUID(), 
+                            NEWID(), 
                             @Name, 
                             @Email,                               
-                            CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord, 2), 
+                            CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord), 2), 
                             GETDATE())";                                   //2 FOR HEXADECIMAL
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -46,7 +46,7 @@ namespace AspNetMVCproject03.Data.Repository
                           SET
                              NAME = @Name
                              EMAIL = @Email
-                             PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord, 2)
+                             PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord), 2)
                           WHERE
                                USERID = @UserID";
             using (var connection = new SqlConnection(_connectionString)) 
@@ -103,7 +103,7 @@ namespace AspNetMVCproject03.Data.Repository
         {
             var query = @"SELECT * FROM USER_TB
                           WHERE EMAIL = @email
-                          AND PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord, 2)
+                          AND PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord), 2)
                           ";
 
             using (var connection = new SqlConnection(_connectionString))

@@ -18,6 +18,15 @@
             <div class="card-body text-center rounded-0">
                 <h5>Registration</h5>
                 <hr />
+
+                @if (TempData["Message"] != null)
+                {
+                <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                    <strong>@TempData["Message"]</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                }
+
                 @using (Html.BeginForm("Registration", "Account", FormMethod.Post, new { @autocomplete = "off" }))
                 {
                     <label>Name</label>
