@@ -14,5 +14,7 @@ namespace AspNetMVCproject03.Data.Entities
         public string PassWord { get; set; }
         public DateTime RegistrationDate { get; set; }
 
+        //Have many
+        public List<Task> Tasks { get; set; }
     }
 }
