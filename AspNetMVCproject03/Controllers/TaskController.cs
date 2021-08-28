@@ -62,6 +62,23 @@ namespace AspNetMVCproject03.Controllers
 
         public IActionResult Consult()
         {
+            try
+            {
+                //getting user email
+                var email = User.Identity.Name;
+
+                //getting user informations using email
+                var user = _userRepository.Get(email);
+
+                //getting user tasks
+                TempData["Tasks"] = _taskRepository.GetByUser(user.UserID);
+
+            }
+            catch (Exception e)
+            {
+
+                TempData["Messege"] = "Error" + e.Message;
+            }
             return View();
         }
 

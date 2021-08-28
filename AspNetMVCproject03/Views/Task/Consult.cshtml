@@ -1,7 +1,9 @@
 ﻿
+@using AspNetMVCproject03.Data.Entities
 @{
     ViewData["Title"] = "Consult";
     Layout = "~/Views/Shared/Layout.cshtml";
+    var tasks = TempData["Tasks"] as List<AspNetMVCproject03.Data.Entities.Task>;
 }
 
 <h5>Task Consult</h5>
@@ -16,17 +18,35 @@ Search the registraded tasks.
             <th>Date</th>
             <th>Hour</th>
             <th>Priority</th>
-            <th>Observations</th>
+            <th>Description</th>
             <th>Operations</th>
         </tr>
     </thead>
     <tbody>
+        @foreach (var task in tasks)
+        {
+        <tr>
+            <td>@task.Name</td>
+            <td>@task.Date</td>
+            <td>@task.Hour</td>
+            <td>@task.Priority</td>
+            <td>@task.Description</td>
+            <td>
+                <a href="#" class="btn btn-primary btn-sm">
+                    Alter
+                </a>
+                <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('Do you want delete this task ?')">
+                    Delete
+                </a>
+            </td>
 
+        </tr>
+        }
     </tbody>
     <tfoot>
         <tr>
             <td colspan="6">
-                Number of tasks: 0 
+                Number of tasks: @tasks.Count 
             </td>
         </tr>
     </tfoot>
