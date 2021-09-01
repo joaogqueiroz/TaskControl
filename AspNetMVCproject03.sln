@@ -8,8 +8,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation Layer", "1 - Presentation Layer", "{C8D49DA6-CA84-425E-A5BB-289C49E8314E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Repository Layer", "2 - Repository Layer", "{C7FD493B-AB02-4659-9B1B-81228BE40937}"
+	ProjectSection(SolutionItems) = preProject
+		AspNetMVCproject03\Program.cs = AspNetMVCproject03\Program.cs
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMVCproject03.Data", "AspNetMVCproject03.Data\AspNetMVCproject03.Data.csproj", "{2038F566-7D9C-4971-98B7-D438EAFFE7EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetMVCproject03.Data", "AspNetMVCproject03.Data\AspNetMVCproject03.Data.csproj", "{2038F566-7D9C-4971-98B7-D438EAFFE7EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

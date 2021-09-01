@@ -81,23 +81,50 @@ namespace AspNetMVCproject03.Controllers
             }
             return View();
         }
-
-        [HttpPost]
-        public IActionResult Consult(TaskConsultModel model)
+        public IActionResult Edit(Guid id)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
+                //taking the task
+                var task = _taskRepository.GetTaskById(id);
 
-                }
-                catch (Exception e)
-                {
+                var model = new TaskEditModel();
 
-                    TempData["Message"] = "Erro: " + e.Message;
-                }
+                model.TaskID = task.TaskID;
+                model.Name = task.Name;
+                model.Date = task.Date.ToString("yyyy-MM-dd");
+                model.Hour = task.Hour.ToString(@"hh\:mm");
+                model.Description = task.Description;
+                model.Priority = (TaskPriority)Enum.Parse(typeof(TaskPriority), task.Priority);
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+
+                TempData["Message"] = e.Message;
             }
             return View();
+        }
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                //taking the task
+                var task = _taskRepository.GetTaskById(id);
+
+                //deliting the task
+                _taskRepository.Delete(task);
+
+                TempData["Messege"] = $"task '{task.Name}', was deleted successfully";
+
+            }
+            catch (Exception e)
+            {
+
+                TempData["Messege"] = e.Message;
+            }
+            return RedirectToAction("Consult");
         }
 
         public IActionResult Report()

@@ -21,10 +21,10 @@
 
                 @if (TempData["Message"] != null)
                 {
-                <div class="alert alert-secondary alert-dismissible fade show" role="alert">
-                    <strong>@TempData["Message"]</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+                    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                        <strong>@TempData["Message"]</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 }
 
                 @using (Html.BeginForm("Registration", "Account", FormMethod.Post, new { @autocomplete = "off" }))
@@ -48,6 +48,7 @@
                     <span class="text-danger">
                         @Html.ValidationMessageFor(model => model.PassWord)
                     </span>
+                    <br />
 
                     <label>Password Confirmation</label>
                     @Html.PasswordFor(model => model.PassWordConfirm, new { @class = "form-control" })
