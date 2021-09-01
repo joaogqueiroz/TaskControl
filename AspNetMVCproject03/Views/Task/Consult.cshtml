@@ -1,0 +1,68 @@
+﻿
+@using AspNetMVCproject03.Data.Entities
+@{
+    ViewData["Title"] = "Consult";
+    Layout = "~/Views/Shared/Layout.cshtml";
+    var tasks = TempData["Tasks"] as List<AspNetMVCproject03.Data.Entities.Task>;
+}
+
+<h5>Task Consult</h5>
+Search the registraded tasks.
+<br />
+<br />  
+
+<table id="table" class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Task name</th>
+            <th>Date</th>
+            <th>Hour</th>
+            <th>Priority</th>
+            <th>Description</th>
+            <th width="150">Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in tasks)
+        {
+            <tr>
+                <td>@task.Name</td>
+                <td>@task.Date.ToString("MM/dd/yyyy")</td>
+                <td>@task.Hour.ToString(@"hh\:mm")</td>
+                <td>
+                    @if (task.Priority.Equals("HIGH"))
+                    {
+                        <span class="badge bg-danger">HIGH</span>
+                    }
+                    else if (task.Priority.Equals("MEDIUM"))
+                    {
+                        <span class="badge bg-warning">MEDIUM</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">LOW</span>
+                    }
+                </td>
+                <td>@task.Description</td>
+                <td>
+                    <a href="/Task/Edit?id=@task.TaskID" class="btn btn-primary btn-sm">
+                        Alter
+                    </a>
+                    <a href="/Task/Delete?id=@task.TaskID" class="btn btn-danger btn-sm" onclick="return confirm('Do you want delete this task ?')">
+                        Delete
+                    </a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                Number of tasks: @tasks.Count 
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+

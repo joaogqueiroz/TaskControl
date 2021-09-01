@@ -1,5 +1,9 @@
+using AspNetMVCproject03.Data.Interfaces;
+using AspNetMVCproject03.Data.Repository;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +28,16 @@ namespace AspNetMVCproject03
         {
             //This command enable MVC
             services.AddControllersWithViews();
+
+            //Using cookies and authentication
+            services.Configure<CookiePolicyOptions>(options => { options.MinimumSameSitePolicy = SameSiteMode.None; });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
+            //DB connectionString
+            var connectionString = Configuration.GetConnectionString("db_coonection");
+            //Dependency injection
+            services.AddTransient<IUserRepository, UserRepository>(map => new UserRepository(connectionString));
+            services.AddTransient<ITaskRepository, TaskRepository>(map => new TaskRepository(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -32,6 +46,11 @@ namespace AspNetMVCproject03
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            //Using cookies
+            app.UseCookiePolicy();
+            //Using authentication
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

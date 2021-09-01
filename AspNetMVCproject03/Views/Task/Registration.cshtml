@@ -1,0 +1,47 @@
+﻿@model AspNetMVCproject03.Models.TaskRegistrationModel
+
+@{
+    ViewData["Title"] = "Registration";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h5>Task Registration</h5>
+Fill in the fields to create a new task.
+<br />
+<br />
+
+@using (Html.BeginForm("Registration", "Task", FormMethod.Post, new { @autocomplete = "off"}))
+{
+<div class="row">
+    <div class="col-md-6">
+        <label>Task name</label>
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        <span class="text-danger">@Html.ValidationMessageFor(model => model.Name)</span>
+    </div>
+    <div class="col-md-3">
+        <label>Task date</label>
+        @Html.TextBoxFor(model => model.Date, new { @class = "form-control", @type = "date" })
+        <span class="text-danger">@Html.ValidationMessageFor(model => model.Date)</span>
+    </div>
+    <div class="col-md-3">
+        <label>Task hour</label>
+        @Html.TextBoxFor(model => model.Hour, new { @class = "form-control", @type = "time" })
+        <span class="text-danger">@Html.ValidationMessageFor(model => model.Hour)</span>
+    </div>
+    <div class="col-md-6">
+        <label>Task Description</label>
+        @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+        <span class="text-danger">@Html.ValidationMessageFor(model => model.Description)</span>
+    </div>
+    <div class="col-md-3">
+        <label>Task priority</label>
+        @Html.DropDownListFor(model => model.Priority, Html.GetEnumSelectList(typeof(AspNetMVCproject03.Models.TaskPriority))
+         , new { @class = "form-select" })
+        <span class="text-danger">@Html.ValidationMessageFor(model => model.Hour)</span>
+    </div>
+</div>
+<br />
+
+<input type="submit"  value="Register" class="btn btn-secondary" />
+}
+

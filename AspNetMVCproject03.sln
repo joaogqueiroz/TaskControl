@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetMVCproject03", "AspNetMVCproject03\AspNetMVCproject03.csproj", "{C8DE24E4-5228-4514-AFCF-CA07CAA6AB14}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation Layer", "1 - Presentation Layer", "{A1BE6C31-927C-4E2C-A987-724537D76E76}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Repository Layer", "2 - Repository Layer", "{28CC2BA8-FC48-4B35-B871-F7DA9C16B957}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMVCproject03", "AspNetMVCproject03\AspNetMVCproject03.csproj", "{C8DE24E4-5228-4514-AFCF-CA07CAA6AB14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,12 +15,13 @@ Global
 		{C8DE24E4-5228-4514-AFCF-CA07CAA6AB14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8DE24E4-5228-4514-AFCF-CA07CAA6AB14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8DE24E4-5228-4514-AFCF-CA07CAA6AB14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2038F566-7D9C-4971-98B7-D438EAFFE7EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2038F566-7D9C-4971-98B7-D438EAFFE7EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2038F566-7D9C-4971-98B7-D438EAFFE7EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2038F566-7D9C-4971-98B7-D438EAFFE7EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{C8DE24E4-5228-4514-AFCF-CA07CAA6AB14} = {A1BE6C31-927C-4E2C-A987-724537D76E76}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69B8BFA9-387E-4013-B631-C004DA3F989A}
