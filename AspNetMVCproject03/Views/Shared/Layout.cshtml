@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width" />
     <title>Task Control</title>
     <link href="~/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -59,15 +58,7 @@
     <div class=" container mt-4">
         @RenderBody()
     </div>
-
-
+     
     <script src="~/js/bootstrap.js"></script>
-    <script src="~/js/jquery-3.6.0.min.js"></script>
-    <script src="~/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#table').DataTable();
-        });
-    </script>
 </body>
 </html>
