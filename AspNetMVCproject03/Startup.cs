@@ -34,7 +34,7 @@ namespace AspNetMVCproject03
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
             //DB connectionString
-            var connectionString = Configuration.GetConnectionString("db_coonection");
+            var connectionString = Configuration.GetConnectionString("DB_context");
             //Dependency injection
             services.AddTransient<IUserRepository, UserRepository>(map => new UserRepository(connectionString));
             services.AddTransient<ITaskRepository, TaskRepository>(map => new TaskRepository(connectionString));
