@@ -44,11 +44,11 @@ namespace AspNetMVCproject03.Controllers
                     task.Date = DateTime.Parse(model.Date);
                     task.Hour = TimeSpan.Parse(model.Hour);
                     task.Description = model.Description;
-                    task.Priority =  model.Priority.ToString();
+                    task.Priority = model.Priority.ToString();
                     task.UserID = user.UserID; //Foreign key
 
                     _taskRepository.Create(task);
-                    TempData["Message"] = $"Task created {task.Name} successfully";
+                    TempData["Message"] = $"Task {task.Name}, was created successfully";
                     ModelState.Clear();
                 }
                 catch (Exception e)
@@ -57,7 +57,7 @@ namespace AspNetMVCproject03.Controllers
                     TempData["Message"] = "Erro: " + e.Message;
                 }
             }
-                return View();
+            return View();
         }
 
         public IActionResult Consult()
@@ -81,25 +81,76 @@ namespace AspNetMVCproject03.Controllers
             }
             return View();
         }
+        public IActionResult Edit(Guid id)
+        {
+            try
+            {
+                //taking the task
+                var task = _taskRepository.GetTaskById(id);
 
+                var model = new TaskEditModel();
+
+                model.TaskID = task.TaskID;
+                model.Name = task.Name;
+                model.Date = task.Date.ToString("yyyy-MM-dd");
+                model.Hour = task.Hour.ToString(@"hh\:mm");
+                model.Description = task.Description;
+                model.Priority = (TaskPriority)Enum.Parse(typeof(TaskPriority), task.Priority);
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                TempData["Message"] = e.Message;
+            }
+            return View();
+        }
         [HttpPost]
-        public IActionResult Consult(TaskConsultModel model)
+        public IActionResult Edit(TaskEditModel model)
         {
             if (ModelState.IsValid)
-            {
+            {            
                 try
                 {
+                   //Editing task
+                    var task = new Task();
+                    task.TaskID = model.TaskID;
+                    task.Name = model.Name;
+                    task.Date = DateTime.Parse(model.Date);
+                    task.Hour = TimeSpan.Parse(model.Hour);
+                    task.Description = model.Description;
+                    task.Priority = model.Priority.ToString();
 
+                    _taskRepository.Update(task);
+                    TempData["Message"] = $"Task {task.Name}, was updated successfully";
+                    return RedirectToAction("Consult");
                 }
                 catch (Exception e)
                 {
-
-                    TempData["Message"] = "Erro: " + e.Message;
+                TempData["Message"] = e.Message;
                 }
             }
             return View();
         }
+            public IActionResult Delete(Guid id) 
+        {
+            try
+            {
+                //taking the task
+                var task = _taskRepository.GetTaskById(id);
 
+                //deliting the task
+                _taskRepository.Delete(task);
+
+                TempData["Messege"] = $"task '{task.Name}', was deleted successfully";
+            }
+            catch (Exception e)
+            {
+                TempData["Messege"] = e.Message;
+                throw;
+            }
+            return RedirectToAction("Consult");
+        }
         public IActionResult Report()
         {
             return View();

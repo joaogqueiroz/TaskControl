@@ -1,0 +1,43 @@
+﻿@model AspNetMVCproject03.Models.TaskEditModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+@using (Html.BeginForm("Edit", "Task", FormMethod.Post, new { @autocomplete = "off" }))
+{
+    @Html.HiddenFor(model => model.TaskID)
+    <div class="row">
+        <div class="col-md-6">
+            <label>Task name</label>
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+            <span class="text-danger">@Html.ValidationMessageFor(model => model.Name)</span>
+        </div>
+        <div class="col-md-3">
+            <label>Task date</label>
+            @Html.TextBoxFor(model => model.Date, new { @class = "form-control", @type = "date" })
+            <span class="text-danger">@Html.ValidationMessageFor(model => model.Date)</span>
+        </div>
+        <div class="col-md-3">
+            <label>Task hour</label>
+            @Html.TextBoxFor(model => model.Hour, new { @class = "form-control", @type = "time" })
+            <span class="text-danger">@Html.ValidationMessageFor(model => model.Hour)</span>
+        </div>
+        <div class="col-md-6">
+            <label>Task Description</label>
+            @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+            <span class="text-danger">@Html.ValidationMessageFor(model => model.Description)</span>
+        </div>
+        <div class="col-md-3">
+            <label>Task priority</label>
+            @Html.DropDownListFor(model => model.Priority, Html.GetEnumSelectList(typeof(AspNetMVCproject03.Models.TaskPriority))
+          , new { @class = "form-select" })
+            <span class="text-danger">@Html.ValidationMessageFor(model => model.Hour)</span>
+        </div>
+    </div>
+    <br />
+
+    <input type="submit" value="Edit" class="btn btn-secondary" />
+}
