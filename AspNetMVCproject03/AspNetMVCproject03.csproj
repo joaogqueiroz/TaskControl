@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AspNetMVCproject03.Data\AspNetMVCproject03.Data.csproj" />
+    <ProjectReference Include="..\AspNetMVCproject03.Reports\AspNetMVCproject03.Reports.csproj" />
   </ItemGroup>
 
 </Project>

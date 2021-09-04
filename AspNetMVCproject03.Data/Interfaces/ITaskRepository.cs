@@ -12,6 +12,7 @@ namespace AspNetMVCproject03.Data.Interfaces
         void Update(Task task);
         void Delete(Task task);
         List<Task> GetByUser(Guid userid);
+        List<Task> GetByUserAndPeriod(Guid userid, DateTime startDate, DateTime finishDate);
 
         Task GetTaskById(Guid taskid);
     }

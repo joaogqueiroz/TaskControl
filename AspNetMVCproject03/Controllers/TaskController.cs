@@ -1,7 +1,10 @@
 ﻿using AspNetMVCproject03.Data.Entities;
 using AspNetMVCproject03.Data.Interfaces;
 using AspNetMVCproject03.Models;
+using AspNetMVCproject03.Reports.Data;
+using AspNetMVCproject03.Reports.Pdfs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -163,7 +166,38 @@ namespace AspNetMVCproject03.Controllers
             {
                 try
                 {
+                    //Parsing date from Model
 
+                    var startDate = DateTime.Parse(model.StartDate);
+                    var finishDate = DateTime.Parse(model.FinishDate);
+
+                    //getting user email
+                    var email = User.Identity.Name;
+
+                    //getting user informations using email
+                    var user = _userRepository.Get(email);
+
+                    var tasks = _taskRepository.GetByUserAndPeriod(user.UserID, startDate, finishDate);
+
+
+
+                    //creating object to transport report data to report layer
+                    var data = new TaskReportData();
+                    data.StartDate = startDate;
+                    data.FinishDate = finishDate;
+                    data.User = user;
+                    data.Tasks = tasks;
+
+                    var taskReportPdf = new TaskReportPdf();
+                    var pdf = taskReportPdf.ReportGenerator(data);
+
+                    //Downloading file!
+                    Response.Clear();
+                    Response.ContentType = "application/pdf";
+                    Response.Headers.Add("content-disposition", "attachment; filename=TaskReport.pdf");
+                    Response.Body.WriteAsync(pdf, 0, pdf.Length);
+                    Response.Body.Flush();
+                    Response.StatusCode = StatusCodes.Status200OK;
                 }
                 catch (Exception e)
                 {

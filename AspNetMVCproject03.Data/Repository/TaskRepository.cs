@@ -94,5 +94,18 @@ namespace AspNetMVCproject03.Data.Repository
                 return connetionString.Query<Task>(query, new { taskid }).FirstOrDefault();
             }
         }
+
+        public List<Task> GetByUserAndPeriod(Guid userid, DateTime startDate, DateTime finishDate)
+        {
+            var query = @"
+                        SELECT * FROM TASK_TB
+                        WHERE USERID = @userid
+                        AND DATE BETWEEN @startDate AND @finishDate
+                        ORDER BY DATE, HOUR DESC";
+            using (var connetionString = new SqlConnection(_connectionString))
+            {
+                return connetionString.Query<Task>(query, new { userid, startDate ,finishDate }).ToList();
+            }
+        }
     }
 }

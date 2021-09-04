@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Repository Layer", "2 -
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetMVCproject03.Data", "AspNetMVCproject03.Data\AspNetMVCproject03.Data.csproj", "{2038F566-7D9C-4971-98B7-D438EAFFE7EB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Reports Layer", "3 - Reports Layer", "{F9F7F9C4-E5B9-46BB-99B8-7965D2BF5A2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMVCproject03.Reports", "AspNetMVCproject03.Reports\AspNetMVCproject03.Reports.csproj", "{A5C60617-83F7-4039-8D9F-8DCE41C33F69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,10 @@ Global
 		{2038F566-7D9C-4971-98B7-D438EAFFE7EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2038F566-7D9C-4971-98B7-D438EAFFE7EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2038F566-7D9C-4971-98B7-D438EAFFE7EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5C60617-83F7-4039-8D9F-8DCE41C33F69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5C60617-83F7-4039-8D9F-8DCE41C33F69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5C60617-83F7-4039-8D9F-8DCE41C33F69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5C60617-83F7-4039-8D9F-8DCE41C33F69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +40,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C8DE24E4-5228-4514-AFCF-CA07CAA6AB14} = {C8D49DA6-CA84-425E-A5BB-289C49E8314E}
 		{2038F566-7D9C-4971-98B7-D438EAFFE7EB} = {C7FD493B-AB02-4659-9B1B-81228BE40937}
+		{A5C60617-83F7-4039-8D9F-8DCE41C33F69} = {F9F7F9C4-E5B9-46BB-99B8-7965D2BF5A2B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69B8BFA9-387E-4013-B631-C004DA3F989A}
