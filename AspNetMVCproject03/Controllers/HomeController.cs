@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace AspNetMVCproject03.Controllers
 {
+    [Authorize] //Just allow authenticated users
     public class HomeController : Controller
     {
-        [Authorize] //Just allow authenticated users
+       
         public IActionResult Index()
         {
             return View();

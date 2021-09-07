@@ -12,6 +12,7 @@ using System.Linq;
 
 namespace AspNetMVCproject03.Controllers
 {
+    [Authorize]
     public class TaskController : Controller
     {
         private readonly ITaskRepository _taskRepository;
@@ -23,7 +24,7 @@ namespace AspNetMVCproject03.Controllers
             _userRepository = userRepository;
         }
 
-        [Authorize]
+       
         public IActionResult Registration()
         {
             return View();

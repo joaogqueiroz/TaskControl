@@ -4,7 +4,10 @@
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<h5>Edit</h5>
+Edit your task.
+<br />
+<br />
 
 @using (Html.BeginForm("Edit", "Task", FormMethod.Post, new { @autocomplete = "off" }))
 {

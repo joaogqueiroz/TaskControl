@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AspNetMVCproject03.Data\AspNetMVCproject03.Data.csproj" />
+    <ProjectReference Include="..\AspNetMVCproject03.Messeges\AspNetMVCproject03.Messeges.csproj" />
     <ProjectReference Include="..\AspNetMVCproject03.Reports\AspNetMVCproject03.Reports.csproj" />
   </ItemGroup>
 
