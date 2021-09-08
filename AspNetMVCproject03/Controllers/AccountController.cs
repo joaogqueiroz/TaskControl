@@ -135,11 +135,11 @@ namespace AspNetMVCproject03.Controllers
                          <br/>
                         Hello <strong>{user.Name}</strong>,
                          <br/>
-                         system generats a new password for you acces your account.
+                         System generats a new password for you access your account.
                          <br/>
                          Please use this password: <strong>{newPassword}</strong>
                          <br/>
-                         After to login you could to chance this password for one tha you prefer.
+                         After to login you could to change this password for one that you prefer.
                          <br/>
                          Best Regards.
                         </div>
