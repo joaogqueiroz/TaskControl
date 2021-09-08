@@ -28,7 +28,7 @@ namespace AspNetMVCproject03.Controllers
                 TempData["UserID"] = user.UserID;
                 TempData["Name"] = user.Name;
                 TempData["Email"] = user.Email;
-                TempData["RegistrationDate"] = user.RegistrationDate.ToString("dd/MM/yyyy");
+                TempData["RegistrationDate"] = user.RegistrationDate.ToString("MM/dd/yyyy");
             }
             catch (Exception e)
             {
@@ -57,11 +57,11 @@ namespace AspNetMVCproject03.Controllers
                     {
                         //try to update the password only.
                         _userRepository.Update(user.UserID, model.NewPassWord);
-                        TempData["Messege"] = "New password updated successfully, use the new password next time you login.";
+                        TempData["Message"] = "New password updated successfully, use the new password next time you login.";
                     }
                     else
                     {
-                        TempData["Messege"] = "Actual password is wrong, try again";
+                        TempData["Message"] = "Actual password is wrong, try again";
                     }
 
                 }
