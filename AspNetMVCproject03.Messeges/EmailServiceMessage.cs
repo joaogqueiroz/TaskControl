@@ -10,8 +10,8 @@ namespace AspNetMVCproject03.Messeges
 {
     public class EmailServiceMessage
     {
-        private string _account = "EMAIL HERE";
-        private string _password = "PASSWORD HERE";
+        private string _account = "EMAIL HERE ";
+        private string _password = "PASSWORD HERE ";
         private string _smtp = "smtp.gmail.com";
         private int _port = 587;
 
