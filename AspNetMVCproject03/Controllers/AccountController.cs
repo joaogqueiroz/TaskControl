@@ -1,5 +1,6 @@
 ﻿using AspNetMVCproject03.Data.Entities;
 using AspNetMVCproject03.Data.Interfaces;
+using AspNetMVCproject03.Messeges;
 using AspNetMVCproject03.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -33,9 +34,6 @@ namespace AspNetMVCproject03.Controllers
             {
                 try
                 {
-                    //var user = new User();                    
-                    //user.Email = model.Email;
-                    //user.PassWord = model.PassWord;
                     if (_userRepository.Get(model.Email, model.PassWord) != null)
                     {
                         //User Auth
@@ -64,14 +62,6 @@ namespace AspNetMVCproject03.Controllers
             }
             return View();
         }
-
-        public IActionResult Logout()
-        {
-            //Delete user cookie
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
-        }
-
         public IActionResult Registration()
         {
             return View();
@@ -111,6 +101,66 @@ namespace AspNetMVCproject03.Controllers
                 }
 
                 
+            }
+            return View();
+        }
+        public IActionResult Logout()
+        {
+            //Delete user cookie
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
+        }
+        public IActionResult Passwordrecovery()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Passwordrecovery(AccountPasswordRecoveryModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = _userRepository.Get(model.Email);
+                    if (user != null)
+                    {
+                        var newPassword = new Random().Next(99999999, 999999999).ToString();
+                        _userRepository.Update(user.UserID, newPassword);
+                        //send email
+
+                        var to = user.Email;
+                        var subject = "New password - Task Control System";
+                        var body = $@"
+                        <div style='text-align: center; margin:40px; padding: 60px; borde: 2px solid #ccc; font-size: 16pt;'>
+                         <br/>
+                        Hello <strong>{user.Name}</strong>,
+                         <br/>
+                         System generats a new password for you access your account.
+                         <br/>
+                         Please use this password: <strong>{newPassword}</strong>
+                         <br/>
+                         After to login you could to change this password for one that you prefer.
+                         <br/>
+                         Best Regards.
+                        </div>
+                        ";
+
+                        var message = new EmailServiceMessage();
+                        message.SendEmail(to, subject, body);
+                        TempData["Message"] = $"New password are generated successfully and sent to your email '{user.Email}' .";
+                        ModelState.Clear();
+                    }
+                    else
+                    {
+                        TempData["Message"] = "The email doesn't exists in this system.";
+                    }
+                }
+                catch (Exception e)
+                {
+
+                    TempData["Message"] = "Erro: " + e.Message;
+                }
+
             }
             return View();
         }

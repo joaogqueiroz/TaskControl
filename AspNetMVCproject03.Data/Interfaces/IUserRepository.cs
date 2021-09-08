@@ -11,10 +11,13 @@ namespace AspNetMVCproject03.Data.Interfaces
     {
         void Create(User user);
         void Update(User user);
+        void Update(Guid userId, string newPassWord);
         void Delete(User user);
         List<User> Read();
-        User GetById(Guid id);
+        User GetById(Guid userId);
         User Get(string email);
         User Get(string email, string password);
+        
+
     }
 }

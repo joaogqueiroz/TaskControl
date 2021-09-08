@@ -54,6 +54,18 @@ namespace AspNetMVCproject03.Data.Repository
                 connection.Execute(query, user);
             }
         }
+        public void Update(Guid userId, string newPassWord)
+        {
+            var query = @"UPDATE USER_TB
+                          SET                             
+                             PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @newPassWord), 2)
+                          WHERE
+                               USERID = @userId";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Execute(query, new { userId, newPassWord });
+            }
+        }
 
         public void Delete(User user)
         {
@@ -77,14 +89,14 @@ namespace AspNetMVCproject03.Data.Repository
         }
 
 
-        public User GetById(Guid id)
+        public User GetById(Guid userId)
         {
             var query = @"SELECT * FROM USER_TB
-                          WHERE USERID = @id";
+                          WHERE USERID = @userId";
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return connection.Query<User>(query, new { id }).FirstOrDefault();
+                return connection.Query<User>(query, new { userId }).FirstOrDefault();
             }
         }
 
@@ -111,5 +123,7 @@ namespace AspNetMVCproject03.Data.Repository
                 return connection.Query<User>(query, new { email, password }).FirstOrDefault();
             }
         }
+
+
     }
 }

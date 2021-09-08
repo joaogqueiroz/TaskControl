@@ -1,8 +1,31 @@
-﻿
+﻿@model AspNetMVCproject03.Models.TaskReportModel
 @{
     ViewData["Title"] = "Report";
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
-<h1>Task Report</h1>
-Print user task list.
+<h5>Task Report</h5>
+Print user task list, selecting by a range.
+<br /> 
+<br /> 
+
+@using (Html.BeginForm("Report", "Task", FormMethod.Post, new { @autocomplete = "off"}))
+{
+<div class="row">
+
+    <div class="col-md-3">
+        <label>Start date</label>
+        @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control", @type = "date" })
+        <span class="text-danger">@Html.ValidationMessageFor(model => model.StartDate)</span>
+    </div>
+
+    <div class="col-md-3">
+        <label>Finish date</label>
+        @Html.TextBoxFor(model => model.FinishDate, new { @class = "form-control", @type = "date" })
+        <span class="text-danger">@Html.ValidationMessageFor(model => model.FinishDate)</span>
+    </div>
+
+</div>
+<br />
+<input type="submit" value="Generate Report" class="btn btn-success" />
+}

@@ -32,20 +32,23 @@
                         <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item bg-dark text-white" href="/Task/Registration">Create Task</a></li>
                             <li><a class="dropdown-item bg-dark text-white" href="/Task/Consult">Consult Task </a></li>
-                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item bg-dark text-white" href="/Task/Report">Task Report</a></li>
                         </ul>
                     </li>
-                </ul>
-                <form class="d-flex">
-                    <div class="text-white">
-                        @User.Identity.Name &nbsp;&nbsp;&nbsp;
-                        <a href="/Account/Logout" class="btn btn-outline-danger btn-sm"
-                           onclick="return confirm('Do you want to logout ?')">
-                            Logout
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            My Account
                         </a>
-                    </div>
-                </form>
+                        <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item bg-dark text-white" href="/User/Information">User data</a></li>
+                            <li><a class="dropdown-item bg-dark text-white" href="/User/ChangePassword">Change Password</a></li>
+                            <li><a class="dropdown-item bg-dark text-white" onclick="return confirm('Do you want to logout ?')" href="/Account/Logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="text-white">
+                    @User.Identity.Name
+                </div>
             </div>
         </div>
     </nav>
@@ -63,6 +66,17 @@
     <script src="~/js/bootstrap.js"></script>
     <script src="~/js/jquery-3.6.0.min.js"></script>
     <script src="~/js/jquery.dataTables.min.js"></script>
+
+    <!--Highcharts libs-->
+    <script src="~/js/highcharts.js"></script>
+    <script src="~/js/highcharts-3d.js"></script>
+    <script src="~/js/exporting.js"></script>
+    <script src="~/js/export-data.js"></script>
+
+    <!--Graph insert-->
+    @RenderSection("graph", required: false)
+
+    <!--Table render-->
     <script>
         $(document).ready(function () {
             $('#table').DataTable();

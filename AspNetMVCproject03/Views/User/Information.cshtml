@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewData["Title"] = "MyData";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+
+<h5>My Data</h5>
+<br />
+<br />
+
+<div class="row">
+    <div class="col-md-2 text-start">
+        User Id
+    </div>
+    <div class="col-md-10">
+        <strong>@TempData["UserID"]</strong>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 text-start">
+        User name
+    </div>
+    <div class="col-md-10">
+        <strong>@TempData["Name"]</strong>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 text-start">
+        Email
+    </div>
+    <div class="col-md-10">
+        <strong>@TempData["Email"]</strong>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 text-start">
+        Registration date
+    </div>
+    <div class="col-md-10">
+        <strong>@TempData["RegistrationDate"]</strong>
+    </div>
+</div>
+
