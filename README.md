@@ -20,11 +20,11 @@ AspNetMVCproject03.Messeges  Email service used for password recovery (SMTP)
 
 ## Tech stack
 
-C# · .NET 5 · ASP.NET Core MVC · Razor · Dapper · SQL Server · iText 7 · Highcharts · Bootstrap 5 · jQuery
+C# · .NET 8 · ASP.NET Core MVC · Razor · Dapper · SQL Server · iText 7 · Highcharts · Bootstrap 5 · jQuery
 
 ## Running locally
 
-Requirements: .NET 5 SDK and SQL Server (LocalDB works).
+Requirements: .NET 8 SDK and SQL Server (LocalDB works).
 
 1. Create the database and run `SQLQuerys.sql` to create the `USER_TB` and `TASK_TB` tables.
 2. Set `ConnectionStrings:DB_context` in `AspNetMVCproject03/appsettings.json` to your database.
