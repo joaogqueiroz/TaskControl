@@ -1,6 +1,7 @@
 ﻿using AspNetMVCproject03.Data.Entities;
 using AspNetMVCproject03.Data.Interfaces;
 using Dapper;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -12,6 +13,7 @@ namespace AspNetMVCproject03.Data.Repository
     public class UserRepository : IUserRepository
     {
         private readonly string _connectionString;
+        private readonly PasswordHasher<User> _passwordHasher = new PasswordHasher<User>();
 
         public UserRepository(string connectionString)
         {
@@ -30,12 +32,12 @@ namespace AspNetMVCproject03.Data.Repository
                         VALUES(
                             NEWID(), 
                             @Name, 
-                            @Email,                               
-                            CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord), 2), 
-                            GETDATE())";                                   //2 FOR HEXADECIMAL
+                            @Email,
+                            @PassWord,
+                            GETDATE())";
             using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Execute(query, user);
+                connection.Execute(query, new { user.Name, user.Email, PassWord = _passwordHasher.HashPassword(user, user.PassWord) });
             }
         
         }
@@ -44,26 +46,27 @@ namespace AspNetMVCproject03.Data.Repository
         {
             var query = @"UPDATE USER_TB
                           SET
-                             NAME = @Name
-                             EMAIL = @Email
-                             PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord), 2)
+                             NAME = @Name,
+                             EMAIL = @Email,
+                             PASSWORD = @PassWord
                           WHERE
                                USERID = @UserID";
-            using (var connection = new SqlConnection(_connectionString)) 
+            using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Execute(query, user);
+                connection.Execute(query, new { user.Name, user.Email, PassWord = _passwordHasher.HashPassword(user, user.PassWord), user.UserID });
             }
         }
         public void Update(Guid userId, string newPassWord)
         {
             var query = @"UPDATE USER_TB
                           SET                             
-                             PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @newPassWord), 2)
+                             PASSWORD = @newPassWord
                           WHERE
                                USERID = @userId";
             using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Execute(query, new { userId, newPassWord });
+                var hashedPassWord = _passwordHasher.HashPassword(new User { UserID = userId }, newPassWord);
+                connection.Execute(query, new { userId, newPassWord = hashedPassWord });
             }
         }
 
@@ -113,15 +116,14 @@ namespace AspNetMVCproject03.Data.Repository
 
         public User Get(string email, string password)
         {
-            var query = @"SELECT * FROM USER_TB
-                          WHERE EMAIL = @email
-                          AND PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @PassWord), 2)
-                          ";
-
-            using (var connection = new SqlConnection(_connectionString))
+            var user = Get(email);
+            if (user == null)
             {
-                return connection.Query<User>(query, new { email, password }).FirstOrDefault();
+                return null;
             }
+
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PassWord, password);
+            return result == PasswordVerificationResult.Failed ? null : user;
         }
 
 

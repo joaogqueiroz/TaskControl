@@ -4,7 +4,7 @@ A full-stack task manager built with ASP.NET Core MVC. People create an account,
 
 ## Features
 
-- **Accounts:** registration, login with cookie authentication, password change and password recovery by email.
+- **Accounts:** registration, login with cookie authentication, password change and password recovery by email. Passwords are hashed with ASP.NET Core Identity's `PasswordHasher` (PBKDF2 with a per-user salt).
 - **Tasks:** create, list, edit and delete tasks with a name, description, date, time and priority.
 - **Dashboard:** Highcharts charts of the user's tasks.
 - **Reports:** PDF reports of tasks in a date range, generated with iText 7.
