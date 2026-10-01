@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore AspNetMVCproject03.sln
+
+      - name: Build
+        run: dotnet build AspNetMVCproject03.sln --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test AspNetMVCproject03.sln --no-build --configuration Release --verbosity normal

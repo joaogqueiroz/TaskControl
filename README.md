@@ -1,5 +1,7 @@
 # TaskControl
 
+[![CI](https://github.com/joaogqueiroz/TaskControl/actions/workflows/ci.yml/badge.svg)](https://github.com/joaogqueiroz/TaskControl/actions/workflows/ci.yml)
+
 A full-stack task manager built with ASP.NET Core MVC. People create an account, register and edit their tasks with a date, time and priority, see their tasks in charts, and export reports to PDF.
 
 ## Features
