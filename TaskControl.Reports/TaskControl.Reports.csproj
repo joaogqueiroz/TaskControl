@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="itext7" Version="7.1.16" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskControl.Data\TaskControl.Data.csproj" />
+  </ItemGroup>
+
+</Project>

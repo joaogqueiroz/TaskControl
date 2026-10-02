@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.23" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskControl.Data\TaskControl.Data.csproj" />
+    <ProjectReference Include="..\TaskControl.Messeges\TaskControl.Messeges.csproj" />
+    <ProjectReference Include="..\TaskControl.Reports\TaskControl.Reports.csproj" />
+  </ItemGroup>
+
+</Project>

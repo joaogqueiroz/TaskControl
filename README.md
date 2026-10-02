@@ -14,10 +14,10 @@ A full-stack task manager built with ASP.NET Core MVC. People create an account,
 ## Architecture
 
 ```
-AspNetMVCproject03           ASP.NET Core MVC app: controllers, view models, Razor views
-AspNetMVCproject03.Data      Entities and repositories with Dapper over SQL Server
-AspNetMVCproject03.Reports   PDF report generation (iText 7)
-AspNetMVCproject03.Messeges  Email service used for password recovery (SMTP)
+TaskControl            ASP.NET Core MVC app: controllers, view models, Razor views
+TaskControl.Data       Entities and repositories with Dapper over SQL Server
+TaskControl.Reports    PDF report generation (iText 7)
+TaskControl.Messeges   Email service used for password recovery (SMTP)
 ```
 
 ## Tech stack
@@ -29,17 +29,17 @@ C# · .NET 8 · ASP.NET Core MVC · Razor · Dapper · SQL Server · iText 7 · 
 Requirements: .NET 8 SDK and SQL Server (LocalDB works).
 
 1. Create the database and run `SQLQuerys.sql` to create the `USER_TB` and `TASK_TB` tables.
-2. Set `ConnectionStrings:DB_context` in `AspNetMVCproject03/appsettings.json` to your database.
-3. To enable password recovery, fill in the SMTP settings in `AspNetMVCproject03.Messeges/EmailServiceMessage.cs`.
+2. Set `ConnectionStrings:DB_context` in `TaskControl/appsettings.json` to your database.
+3. To enable password recovery, fill in the SMTP settings in `TaskControl.Messeges/EmailServiceMessage.cs`.
 4. Run it:
 
 ```sh
-dotnet run --project AspNetMVCproject03
+dotnet run --project TaskControl
 ```
 
 ## Tests
 
-`AspNetMVCproject03.IntegrationTests` runs the Dapper repositories against a real SQL Server. [Testcontainers](https://dotnet.testcontainers.org/) starts SQL Server 2022 in Docker and creates the tables from `SQLQuerys.sql`, so the only requirement is a running Docker.
+`TaskControl.IntegrationTests` runs the Dapper repositories against a real SQL Server. [Testcontainers](https://dotnet.testcontainers.org/) starts SQL Server 2022 in Docker and creates the tables from `SQLQuerys.sql`, so the only requirement is a running Docker.
 
 ```sh
 dotnet test

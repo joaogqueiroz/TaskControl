@@ -20,10 +20,10 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restore
-        run: dotnet restore AspNetMVCproject03.sln
+        run: dotnet restore TaskControl.sln
 
       - name: Build
-        run: dotnet build AspNetMVCproject03.sln --no-restore --configuration Release
+        run: dotnet build TaskControl.sln --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test AspNetMVCproject03.sln --no-build --configuration Release --verbosity normal
+        run: dotnet test TaskControl.sln --no-build --configuration Release --verbosity normal
