@@ -36,3 +36,13 @@ Requirements: .NET 8 SDK and SQL Server (LocalDB works).
 ```sh
 dotnet run --project AspNetMVCproject03
 ```
+
+## Tests
+
+`AspNetMVCproject03.IntegrationTests` runs the Dapper repositories against a real SQL Server. [Testcontainers](https://dotnet.testcontainers.org/) starts SQL Server 2022 in Docker and creates the tables from `SQLQuerys.sql`, so the only requirement is a running Docker.
+
+```sh
+dotnet test
+```
+
+They cover sign-up, login and password changes with the hashed passwords, and creating, listing, filtering by period, updating and deleting tasks.
