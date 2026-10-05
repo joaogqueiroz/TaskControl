@@ -13,6 +13,7 @@ namespace TaskControl.Models
         [Required(ErrorMessage = "Inform your name.")]
         public string Name { get; set; }
 
+        [MaxLength(100, ErrorMessage = "Email should have {1} maximum characters.")]
         [EmailAddress(ErrorMessage = "Inform a valid email.")]
         [Required(ErrorMessage = "Inform your email.")]
         public string Email { get; set; }

@@ -8,16 +8,19 @@ namespace TaskControl.Models
 {
     public class TaskRegistrationModel
     {
+        [MaxLength(150, ErrorMessage = "Task name should have {1} maximum characters.")]
         [Required(ErrorMessage = "Inform task name.")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Select task date.")]
+        [ValidDate(ErrorMessage = "Select a valid task date.")]
         public string Date { get; set; }
 
         [Required(ErrorMessage = "Inform task hour.")]
+        [ValidTime(ErrorMessage = "Inform a valid task hour.")]
         public string Hour { get; set; }
 
-        [MaxLength(150, ErrorMessage = "Description should have {1} maximum characters.")]
+        [MaxLength(100, ErrorMessage = "Description should have {1} maximum characters.")]
         [Required(ErrorMessage = "Inform task description.")]
         public string Description { get; set; }
 

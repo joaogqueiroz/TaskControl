@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskControl.Messeges", "Tas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskControl.IntegrationTests", "TaskControl.IntegrationTests\TaskControl.IntegrationTests.csproj", "{984E050E-C089-4563-BFCA-698C2F4E7B33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskControl.UnitTests", "TaskControl.UnitTests\TaskControl.UnitTests.csproj", "{2F0991D6-4E6A-4D60-A875-478C542B0C8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,18 @@ Global
 		{984E050E-C089-4563-BFCA-698C2F4E7B33}.Release|x64.Build.0 = Release|Any CPU
 		{984E050E-C089-4563-BFCA-698C2F4E7B33}.Release|x86.ActiveCfg = Release|Any CPU
 		{984E050E-C089-4563-BFCA-698C2F4E7B33}.Release|x86.Build.0 = Release|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Debug|x64.Build.0 = Debug|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Debug|x86.Build.0 = Debug|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Release|x64.ActiveCfg = Release|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Release|x64.Build.0 = Release|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Release|x86.ActiveCfg = Release|Any CPU
+		{2F0991D6-4E6A-4D60-A875-478C542B0C8F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
