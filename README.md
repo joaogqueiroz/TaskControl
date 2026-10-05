@@ -40,7 +40,7 @@ dotnet run --project TaskControl
 ## Tests
 
 - `TaskControl.UnitTests` checks the form validation: required fields, lengths that match the database columns, e-mail format, the strong-password rule, dates and hours in the format the date and time inputs post, and report periods that end before they start.
-- `TaskControl.IntegrationTests` runs the Dapper repositories against a real SQL Server. [Testcontainers](https://dotnet.testcontainers.org/) starts SQL Server 2022 in Docker and creates the tables from `SQLQuerys.sql`, so the only requirement is a running Docker. They cover sign-up, login and password changes with the hashed passwords, and creating, listing, filtering by period, updating and deleting tasks.
+- `TaskControl.IntegrationTests` runs the Dapper repositories against a real SQL Server. [Testcontainers](https://dotnet.testcontainers.org/) starts SQL Server 2022 in Docker and creates the tables from `SQLQuerys.sql`, so the only requirement is a running Docker. They cover sign-up, login and password changes with the hashed passwords, creating, listing, filtering by period, updating and deleting tasks, and the error cases: duplicate e-mails, values longer than their columns, tasks for users that do not exist, unknown ids and reversed periods.
 
 ```sh
 dotnet test                         # both projects
