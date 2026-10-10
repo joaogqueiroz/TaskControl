@@ -13,11 +13,42 @@ A full-stack task manager built with ASP.NET Core MVC. People create an account,
 
 ## Architecture
 
+```mermaid
+flowchart TB
+    browser(["Browser"]) -- "cookie auth" --> mvc["TaskControl<br/>ASP.NET Core MVC: controllers, view models,<br/>Razor views, Highcharts dashboard"]
+    mvc --> data["TaskControl.Data<br/>entities and repositories (Dapper)"]
+    mvc --> reports["TaskControl.Reports<br/>PDF reports (iText 7)"]
+    mvc --> messages["TaskControl.Messeges<br/>email service"]
+    reports --> data
+    data --> sql[("SQL Server")]
+    messages -- "SMTP" --> smtp(["Mail server"])
 ```
-TaskControl            ASP.NET Core MVC app: controllers, view models, Razor views
-TaskControl.Data       Entities and repositories with Dapper over SQL Server
-TaskControl.Reports    PDF report generation (iText 7)
-TaskControl.Messeges   Email service used for password recovery (SMTP)
+
+## Generating a report
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor user as User
+    participant task as TaskController
+    participant data as TaskControl.Data
+    participant db as SQL Server
+    participant pdf as TaskControl.Reports
+
+    user->>task: POST /Task/Report (start and finish dates, auth cookie)
+    alt invalid dates
+        task-->>user: the form again, with the errors
+    else valid dates
+        task->>data: user by the email in the cookie
+        data->>db: SELECT (Dapper)
+        task->>data: the user's tasks in the period
+        data->>db: SELECT (Dapper)
+        db-->>data: tasks
+        data-->>task: tasks
+        task->>pdf: ReportGenerator(user, period, tasks)
+        pdf-->>task: PDF bytes (iText 7)
+        task-->>user: TaskReport.pdf download
+    end
 ```
 
 ## Tech stack
