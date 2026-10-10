@@ -106,9 +106,9 @@ namespace TaskControl.IntegrationTests
             task.Hour = new TimeSpan(14, 15, 0);
             task.Description = "Updated description";
             task.Priority = "HIGH";
-            _taskRepository.Update(task);
+            Assert.True(_taskRepository.Update(task));
 
-            var updated = _taskRepository.GetTaskById(task.TaskID);
+            var updated = _taskRepository.GetTaskById(task.TaskID, userId);
             Assert.Equal("Final", updated.Name);
             Assert.Equal(new DateTime(2026, 10, 5), updated.Date);
             Assert.Equal(new TimeSpan(14, 15, 0), updated.Hour);
@@ -124,10 +124,33 @@ namespace TaskControl.IntegrationTests
             CreateTask(userId, "Remove", new DateTime(2026, 10, 2), new TimeSpan(9, 0, 0));
             var toRemove = _taskRepository.GetByUser(userId).Single(t => t.Name == "Remove");
 
-            _taskRepository.Delete(toRemove);
+            Assert.True(_taskRepository.Delete(toRemove.TaskID, userId));
 
-            Assert.Null(_taskRepository.GetTaskById(toRemove.TaskID));
+            Assert.Null(_taskRepository.GetTaskById(toRemove.TaskID, userId));
             Assert.Equal("Keep", Assert.Single(_taskRepository.GetByUser(userId)).Name);
+        }
+
+        // Another user's task looks the same as a missing one, and nothing about it changes
+        [Fact]
+        public void SomeoneElsesTask_CannotBeReadChangedOrDeleted()
+        {
+            var ownerId = CreateUser();
+            var otherId = CreateUser();
+            CreateTask(ownerId, "Private", new DateTime(2026, 10, 1), new TimeSpan(9, 0, 0), "LOW");
+            var task = _taskRepository.GetByUser(ownerId).Single();
+
+            Assert.Null(_taskRepository.GetTaskById(task.TaskID, otherId));
+
+            var tampered = _taskRepository.GetTaskById(task.TaskID, ownerId);
+            tampered.UserID = otherId;
+            tampered.Name = "Changed by someone else";
+            Assert.False(_taskRepository.Update(tampered));
+
+            Assert.False(_taskRepository.Delete(task.TaskID, otherId));
+
+            var unchanged = _taskRepository.GetTaskById(task.TaskID, ownerId);
+            Assert.Equal("Private", unchanged.Name);
+            Assert.Equal(ownerId, unchanged.UserID);
         }
     }
 }

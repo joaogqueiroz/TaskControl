@@ -43,7 +43,8 @@ namespace TaskControl.Data.Repository
             }
         }
 
-        public void Update(Task task)
+        // Only the owner's task is changed (task.UserID); returns false when there is none
+        public bool Update(Task task)
         {
             var query = @" 
                 UPDATE TASK_TB SET
@@ -53,22 +54,24 @@ namespace TaskControl.Data.Repository
                     DESCRIPTION = @Description,
                     PRIORITY = @Priority
                 WHERE
-                    TASKID = @TaskID";
+                    TASKID = @TaskID
+                    AND USERID = @UserID";
             using (var connetionString = new SqlConnection(_connectionString))
             {
-                connetionString.Execute(query, task);
+                return connetionString.Execute(query, task) > 0;
             }
 
         }
 
-        public void Delete(Task task)
+        public bool Delete(Guid taskid, Guid userid)
         {
             var query = @"
                         DELETE FROM TASK_TB
-                        WHERE TASKID = @TaskID";
+                        WHERE TASKID = @taskid
+                          AND USERID = @userid";
             using (var connetionString = new SqlConnection(_connectionString))
             {
-                connetionString.Execute(query, task);
+                return connetionString.Execute(query, new { taskid, userid }) > 0;
             }
         }
 
@@ -84,14 +87,15 @@ namespace TaskControl.Data.Repository
             }
         }
 
-        public Task GetTaskById(Guid taskid)
+        public Task GetTaskById(Guid taskid, Guid userid)
         {
             var query = @"
                         SELECT * FROM TASK_TB
-                        WHERE taskid = @taskid";
+                        WHERE taskid = @taskid
+                          AND userid = @userid";
             using (var connetionString = new SqlConnection(_connectionString))
             {
-                return connetionString.Query<Task>(query, new { taskid }).FirstOrDefault();
+                return connetionString.Query<Task>(query, new { taskid, userid }).FirstOrDefault();
             }
         }
 

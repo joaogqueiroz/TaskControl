@@ -93,7 +93,7 @@ namespace TaskControl.IntegrationTests
         {
             Assert.Null(_userRepository.GetById(Guid.NewGuid()));
             Assert.Null(_userRepository.Get($"{Guid.NewGuid():N}@test.com"));
-            Assert.Null(_taskRepository.GetTaskById(Guid.NewGuid()));
+            Assert.Null(_taskRepository.GetTaskById(Guid.NewGuid(), Guid.NewGuid()));
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace TaskControl.IntegrationTests
 
             var ghost = Task(user.UserID, name: "Ghost");
             ghost.TaskID = Guid.NewGuid();
-            _taskRepository.Update(ghost);
+            Assert.False(_taskRepository.Update(ghost));
 
             Assert.Equal("Existing", Assert.Single(_taskRepository.GetByUser(user.UserID)).Name);
         }
@@ -124,9 +124,7 @@ namespace TaskControl.IntegrationTests
             var user = CreateUser();
             _taskRepository.Create(Task(user.UserID));
 
-            var ghost = Task(user.UserID);
-            ghost.TaskID = Guid.NewGuid();
-            _taskRepository.Delete(ghost);
+            Assert.False(_taskRepository.Delete(Guid.NewGuid(), user.UserID));
 
             Assert.Single(_taskRepository.GetByUser(user.UserID));
         }

@@ -48,9 +48,11 @@ Search the registraded tasks.
                     <a href="/Task/Edit?id=@task.TaskID" class="btn btn-primary btn-sm">
                         Update
                     </a>
-                    <a href="/Task/Delete?id=@task.TaskID" class="btn btn-danger btn-sm" onclick="return confirm('Do you want delete this task ?')">
-                        Delete
-                    </a>
+                    <form method="post" action="/Task/Delete" class="d-inline" onsubmit="return confirm('Do you want delete this task ?')">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@task.TaskID" />
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
                 </td>
 
             </tr>

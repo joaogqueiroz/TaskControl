@@ -81,26 +81,31 @@ namespace TaskControl.Controllers
             catch (Exception e)
             {
 
-                TempData["Messege"] = "Error" + e.Message;
+                TempData["Message"] = "Error: " + e.Message;
             }
             return View();
         }
+        // The signed-in user, from the e-mail in the auth cookie
+        private Guid CurrentUserId() => _userRepository.Get(User.Identity.Name).UserID;
+
         public IActionResult Edit(Guid id)
         {
             try
             {
-                //taking the task
-                var task = _taskRepository.GetTaskById(id);
-
+                //taking the task, only if it belongs to the signed-in user
+                var task = _taskRepository.GetTaskById(id, CurrentUserId());
+                if (task == null)
+                {
+                    TempData["Message"] = "Task not found.";
+                    return RedirectToAction("Consult");
+                }
                 var model = new TaskEditModel();
-
                 model.TaskID = task.TaskID;
                 model.Name = task.Name;
                 model.Date = task.Date.ToString("yyyy-MM-dd");
                 model.Hour = task.Hour.ToString(@"hh\:mm");
                 model.Description = task.Description;
                 model.Priority = (TaskPriority)Enum.Parse(typeof(TaskPriority), task.Priority);
-
                 return View(model);
             }
             catch (Exception e)
@@ -113,20 +118,22 @@ namespace TaskControl.Controllers
         public IActionResult Edit(TaskEditModel model)
         {
             if (ModelState.IsValid)
-            {            
+            {
                 try
                 {
-                   //Editing task
+                   //Editing task. The owner comes from the cookie, not from the form, so a
+                   //TaskID changed in the form cannot reach another user's task.
                     var task = new Task();
                     task.TaskID = model.TaskID;
+                    task.UserID = CurrentUserId();
                     task.Name = model.Name;
                     task.Date = DateTime.Parse(model.Date);
                     task.Hour = TimeSpan.Parse(model.Hour);
                     task.Description = model.Description;
                     task.Priority = model.Priority.ToString();
-
-                    _taskRepository.Update(task);
-                    TempData["Message"] = $"Task {task.Name}, was updated successfully";
+                    TempData["Message"] = _taskRepository.Update(task)
+                        ? $"Task {task.Name}, was updated successfully"
+                        : "Task not found.";
                     return RedirectToAction("Consult");
                 }
                 catch (Exception e)
@@ -136,25 +143,26 @@ namespace TaskControl.Controllers
             }
             return View();
         }
-            public IActionResult Delete(Guid id) 
+
+        // POST with an anti-forgery token: a plain link (GET) could delete a task from any page
+        // that tricks the user into opening it
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Guid id)
         {
             try
             {
-                //taking the task
-                var task = _taskRepository.GetTaskById(id);
-
-                //deliting the task
-                _taskRepository.Delete(task);
-
-                TempData["Messege"] = $"task '{task.Name}', was deleted successfully";
+                TempData["Message"] = _taskRepository.Delete(id, CurrentUserId())
+                    ? "The task was deleted successfully."
+                    : "Task not found.";
             }
             catch (Exception e)
             {
-                TempData["Messege"] = e.Message;
-                throw;
+                TempData["Message"] = e.Message;
             }
             return RedirectToAction("Consult");
         }
+
         public IActionResult Report()
         {
             return View();
