@@ -1,5 +1,6 @@
 using TaskControl.Data.Interfaces;
 using TaskControl.Data.Repository;
+using TaskControl.Messeges;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +34,8 @@ namespace TaskControl
             //Dependency injection
             services.AddTransient<IUserRepository, UserRepository>(map => new UserRepository(connectionString));
             services.AddTransient<ITaskRepository, TaskRepository>(map => new TaskRepository(connectionString));
+            services.AddTransient<IPasswordResetRepository, PasswordResetRepository>(map => new PasswordResetRepository(connectionString));
+            services.AddTransient<IEmailService, EmailServiceMessage>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

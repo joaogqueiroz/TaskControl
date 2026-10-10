@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TaskControl.Messeges
 {
-    public class EmailServiceMessage
+    public class EmailServiceMessage : IEmailService
     {
         private string _account = "EMAIL HERE ";
         private string _password = "PASSWORD HERE ";
