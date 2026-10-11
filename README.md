@@ -4,6 +4,14 @@
 
 A full-stack task manager built with ASP.NET Core MVC. People create an account, register and edit their tasks with a date, time and priority, see their tasks in charts, and export reports to PDF.
 
+## Screenshots
+
+![Tour: login, dashboard with the month's tasks by priority, task list, new task and the report page](docs/images/tour.gif)
+
+| Login | Dashboard | Tasks |
+| --- | --- | --- |
+| ![Login page](docs/images/login.png) | ![Dashboard with the month's tasks and a chart by priority](docs/images/dashboard.png) | ![Task list with update and delete](docs/images/tasks.png) |
+
 ## Features
 
 - **Accounts:** registration, login with cookie authentication, password change and password recovery by email. Passwords are hashed with ASP.NET Core Identity's `PasswordHasher` (PBKDF2 with a per-user salt).
@@ -54,7 +62,7 @@ sequenceDiagram
 
 ## Tech stack
 
-C# · .NET 8 · ASP.NET Core MVC · Razor · Dapper · SQL Server · iText 7 · Highcharts · Bootstrap 5 · jQuery
+C# · .NET 8 · ASP.NET Core MVC · Razor · Dapper · SQL Server · iText 7 · Highcharts · DataTables · Bootstrap 5.3 · jQuery 3.7
 
 ## Running locally
 
