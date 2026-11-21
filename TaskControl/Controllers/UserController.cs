@@ -33,7 +33,7 @@ namespace TaskControl.Controllers
             catch (Exception e)
             {
 
-                TempData["Messege"] = e.Message;
+                TempData["Message"] = e.Message;
             }
             return View();
         }
@@ -68,7 +68,7 @@ namespace TaskControl.Controllers
                 catch (Exception e)
                 {
 
-                    TempData["Messege"] = e.Message;
+                    TempData["Message"] = e.Message;
                 }
             }
             return View();

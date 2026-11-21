@@ -1,117 +1,100 @@
-﻿@using TaskControl.Data.Entities
+﻿@using System.Globalization
+@using TaskControl.Data.Entities
 @{
     Layout = "~/Views/Shared/Layout.cshtml";
-    var tasks = TempData["Tasks"] as List<TaskControl.Data.Entities.Task>;
+    ViewData["Title"] = "Month";
+
+    var us = CultureInfo.GetCultureInfo("en-US");
+    var today = DateTime.Now.Date;
+    var days = DateTime.DaysInMonth(today.Year, today.Month);
+    var tasks = (TempData["Tasks"] as List<TaskControl.Data.Entities.Task> ?? new List<TaskControl.Data.Entities.Task>())
+        .OrderBy(t => t.Date).ThenBy(t => t.Hour).ToList();
+
+    var high = tasks.Count(t => t.Priority == "HIGH");
+    var medium = tasks.Count(t => t.Priority == "MEDIUM");
+    var low = tasks.Count(t => t.Priority == "LOW");
+    var most = Math.Max(1, Math.Max(high, Math.Max(medium, low)));
+    var byDay = tasks.GroupBy(t => t.Date.Day).ToDictionary(g => g.Key, g => g.ToList());
+    var firstDay = new DateTime(today.Year, today.Month, 1).ToString("yyyy-MM-dd");
+    var lastDay = new DateTime(today.Year, today.Month, days).ToString("yyyy-MM-dd");
 }
 
+<h1>@today.ToString("MMMM yyyy", us)</h1>
+<p class="sub">
+    @if (tasks.Count == 0)
+    {
+        <text>No tasks this month yet.</text>
+    }
+    else
+    {
+        <text>@tasks.Count @(tasks.Count == 1 ? "task" : "tasks") this month@(high > 0 ? $", {high} of them high priority" : "").</text>
+    }
+</p>
 
-<h5>Welcome to Task Control (today is <strong class="text-primary">@DateTime.Now.ToString("MM/dd/yyyy")</strong>)</h5>
-    Summary of tasks in the period from
-    <strong>@TempData["FirstDayOfCurrentMonth"]</strong> to
-    <strong>@TempData["LastDayOfCurrentMonth"]</strong>
-<br />
-
-<div class="row mb-5">
-    <div class="col-md-6">
-        <div class="table-responsive">
-            <table id="table" class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Hour</th>
-                        <th>Priority</th>
-                        <th>Task name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var task in tasks)
+@if (tasks.Count == 0)
+{
+    <div class="sheet month empty">
+        <h2>Nothing planned for @today.ToString("MMMM", us)</h2>
+        <p>Add a task and it shows up here on the month's ruler.</p>
+        <a class="btn pen" href="/Task/Registration">Add a task</a>
+    </div>
+}
+else
+{
+    <div class="sheet month">
+        <div class="ruler" style="--days:@days; --today:@today.Day" role="img" aria-label="The month day by day, with a mark for each task">
+            @for (var d = 1; d <= days; d++)
+            {
+                var monday = new DateTime(today.Year, today.Month, d).DayOfWeek == DayOfWeek.Monday;
+                <div class="day@(monday ? " week" : "")" title="@today.ToString("MMM", us) @d">
+                    @if (byDay.TryGetValue(d, out var dayTasks))
                     {
-                        if (DateTime.Now.ToString("MM/dd/yyyy").Equals(task.Date.ToString("MM/dd/yyyy")))
+                        foreach (var t in dayTasks)
                         {
-                            <tr class="bg-primary">
-                                <td class="text-white">@task.Date.ToString("MM/dd/yyyy")</td>
-                                <td class="text-white">@task.Hour.ToString(@"hh\:mm")</td>
-                                <td class="text-center text-white">
-                                    @if (task.Priority.Equals("HIGH"))
-                                    {
-                                        <span class="badge bg-danger">HIGH</span>
-                                    }
-                                    else if (task.Priority.Equals("MEDIUM"))
-                                    {
-                                        <span class="badge bg-warning">MEDIUM</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-success">LOW</span>
-                                    }
-                                </td>
-                                <td class="text-white">@task.Name</td>
-                            </tr>
+                            <span class="mark @t.Priority.ToLowerInvariant()"></span>
                         }
-                        else
-                        {
-                            <tr>
-                                <td>@task.Date.ToString("MM/dd/yyyy")</td>
-                                <td>@task.Hour.ToString(@"hh\:mm")</td>
-                                <td class="text-center">
-                                    @if (task.Priority.Equals("HIGH"))
-                                    {
-                                        <span class="badge bg-danger">HIGH</span>
-                                    }
-                                    else if (task.Priority.Equals("MEDIUM"))
-                                    {
-                                        <span class="badge bg-warning">MEDIUM</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-success">LOW</span>
-                                    }
-                                </td>
-                                <td>@task.Name</td>
-                            </tr>
-                        }
-
                     }
-                </tbody>
-            </table>
+                </div>
+            }
+            <div class="today"><span>Today, @today.ToString("MMM d", us)</span></div>
+        </div>
+        <div class="nums" style="--days:@days" aria-hidden="true">
+            @for (var d = 1; d <= days; d++)
+            {
+                <span class="@(d == 1 || (d % 5 == 0 && d <= days - 2) || d == days ? "w" : "")">@d</span>
+            }
+        </div>
+        <div class="legend">
+            @await Html.PartialAsync("_Priority", "HIGH")
+            @await Html.PartialAsync("_Priority", "MEDIUM")
+            @await Html.PartialAsync("_Priority", "LOW")
         </div>
     </div>
-    <div class="col-md-6">
-        <div id="task-graph"></div>
+
+    <div class="cols">
+        <div class="sheet list">
+            @foreach (var t in tasks)
+            {
+                <div class="task@(t.Date.Date == today ? " today-row" : "")">
+                    <span class="when">@t.Date.ToString("ddd, MMM d", us), @t.Hour.ToString(@"hh\:mm")</span>
+                    <strong>@t.Name</strong>
+                    @await Html.PartialAsync("_Priority", t.Priority)
+                </div>
+            }
+        </div>
+        <div class="sheet split">
+            <h2>By priority</h2>
+            <div class="bars">
+                <div class="bar"><span>High</span><i style="--c:var(--high); --w:@(high * 100 / most)%"></i><b>@high</b></div>
+                <div class="bar"><span>Medium</span><i style="--c:var(--medium); --w:@(medium * 100 / most)%"></i><b>@medium</b></div>
+                <div class="bar"><span>Low</span><i style="--c:var(--low); --w:@(low * 100 / most)%"></i><b>@low</b></div>
+            </div>
+            @using (Html.BeginForm("Report", "Task", FormMethod.Post))
+            {
+                <input type="hidden" name="StartDate" value="@firstDay" />
+                <input type="hidden" name="FinishDate" value="@lastDay" />
+                <button type="submit" class="btn plain">Export this month as PDF</button>
+            }
+        </div>
     </div>
-</div>
-
-@section graph{
-    <script>
-        var array = [];
-        array.push(['HIGH', @TempData["HighPriorityAmount"]]);
-        array.push(['MEDIUM', @TempData["MediumPriorityAmount"]]);
-        array.push(['LOW', @TempData["LowPriorityAmount"]]);
-
-        new Highcharts.Chart({
-            chart: {
-             type: 'pie',
-                 renderTo:'task-graph'
-            },
-            title: {
-                text: 'Task by priority'
-            },
-            plotOptions:{
-                pie: { //transform in a donut chart
-                    innerSize: '70%',
-                    dataLabels: {
-                        enable: true
-                    },
-                    showInLegend:true
-                }
-            },
-            credits: {
-                enabled: false //deactivate highcharts credits
-            },
-            series: [{
-                data: array
-            }],
-                colors: ['#d9534f', '#f0ad4e','#5cb85c']
-            });
-    </script>
-    }
+}

@@ -1,47 +1,34 @@
 ﻿@model TaskControl.Models.TaskRegistrationModel
 
 @{
-    ViewData["Title"] = "Registration";
+    ViewData["Title"] = "New task";
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
-<h5>Task Registration</h5>
-Fill in the fields to create a new task.
-<br />
-<br />
+<h1>New task</h1>
+<p class="sub">Add it to the month. You can change it later.</p>
 
-@using (Html.BeginForm("Registration", "Task", FormMethod.Post, new { @autocomplete = "off"}))
+@using (Html.BeginForm("Registration", "Task", FormMethod.Post, new { @autocomplete = "off", @class = "sheet form" }))
 {
-<div class="row">
-    <div class="col-md-6">
-        <label>Task name</label>
-        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
-        <span class="text-danger">@Html.ValidationMessageFor(model => model.Name)</span>
+    <label class="field wide">Task
+        @Html.TextBoxFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </label>
+    <label class="field">Date
+        @Html.TextBoxFor(model => model.Date, new { @type = "date" })
+        @Html.ValidationMessageFor(model => model.Date)
+    </label>
+    <label class="field">Time
+        @Html.TextBoxFor(model => model.Hour, new { @type = "time" })
+        @Html.ValidationMessageFor(model => model.Hour)
+    </label>
+    @await Html.PartialAsync("_PriorityPicker", (Model?.Priority ?? TaskControl.Models.TaskPriority.MEDIUM).ToString())
+    <label class="field wide">Description
+        @Html.TextAreaFor(model => model.Description)
+        @Html.ValidationMessageFor(model => model.Description)
+    </label>
+    <div class="actions">
+        <button type="submit" class="btn pen">Create task</button>
+        <a class="btn plain" href="/Task/Consult">Cancel</a>
     </div>
-    <div class="col-md-3">
-        <label>Task date</label>
-        @Html.TextBoxFor(model => model.Date, new { @class = "form-control", @type = "date" })
-        <span class="text-danger">@Html.ValidationMessageFor(model => model.Date)</span>
-    </div>
-    <div class="col-md-3">
-        <label>Task hour</label>
-        @Html.TextBoxFor(model => model.Hour, new { @class = "form-control", @type = "time" })
-        <span class="text-danger">@Html.ValidationMessageFor(model => model.Hour)</span>
-    </div>
-    <div class="col-md-6">
-        <label>Task Description</label>
-        @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
-        <span class="text-danger">@Html.ValidationMessageFor(model => model.Description)</span>
-    </div>
-    <div class="col-md-3">
-        <label>Task priority</label>
-        @Html.DropDownListFor(model => model.Priority, Html.GetEnumSelectList(typeof(TaskControl.Models.TaskPriority))
-         , new { @class = "form-select" })
-        <span class="text-danger">@Html.ValidationMessageFor(model => model.Hour)</span>
-    </div>
-</div>
-<br />
-
-<input type="submit"  value="Register" class="btn btn-secondary" />
 }
-

@@ -1,86 +1,42 @@
-﻿
-@{
+﻿@{
     Layout = null;
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+    string Current(bool on) => on ? "page" : null;
 }
-
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Task Control</title>
-    <link href="~/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@(ViewData["Title"] is string title ? $"{title} - Task Control" : "Task Control")</title>
+    <link rel="icon" href="~/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="~/fonts/atkinson-hyperlegible-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    <header class="top">
+        <div class="in">
+            <a class="brand" href="/Home/Index">Task Control</a>
+            <nav aria-label="Main">
+                <a href="/Home/Index" aria-current="@Current(controller == "Home")">Month</a>
+                <a href="/Task/Consult" aria-current="@Current(controller == "Task" && (action == "Consult" || action == "Edit"))">Tasks</a>
+                <a href="/Task/Registration" aria-current="@Current(controller == "Task" && action == "Registration")">New task</a>
+                <a href="/Task/Report" aria-current="@Current(controller == "Task" && action == "Report")">Report</a>
+            </nav>
+            <a class="me" href="/User/Information" aria-current="@Current(controller == "User")">@User.Identity.Name</a>
+            <a class="me" href="/Account/Logout">Log out</a>
+        </div>
+    </header>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/Home/Index">Task Control</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/Home/Index">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Control Tasks
-                        </a>
-                        <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item bg-dark text-white" href="/Task/Registration">Create Task</a></li>
-                            <li><a class="dropdown-item bg-dark text-white" href="/Task/Consult">Consult Task </a></li>
-                            <li><a class="dropdown-item bg-dark text-white" href="/Task/Report">Task Report</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            My Account
-                        </a>
-                        <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item bg-dark text-white" href="/User/Information">User data</a></li>
-                            <li><a class="dropdown-item bg-dark text-white" href="/User/ChangePassword">Change Password</a></li>
-                            <li><a class="dropdown-item bg-dark text-white" onclick="return confirm('Do you want to logout ?')" href="/Account/Logout">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="text-white">
-                    @User.Identity.Name
-                </div>
-            </div>
-        </div>
-    </nav>
-    @if (TempData["Message"] != null)
-    {
-        <div class="alert alert-secondary alert-dismissible fade show" role="alert">
-            <strong>@TempData["Message"]</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-    <div class=" container mt-4">
+    <main class="@(ViewData["Narrow"] is true ? "narrow" : null)">
+        @if (TempData["Message"] != null)
+        {
+            <div class="notice" role="status">@TempData["Message"]</div>
+        }
         @RenderBody()
-    </div>
+    </main>
 
-    <script src="~/js/bootstrap.bundle.js"></script>
-    <script src="~/js/jquery-3.7.1.min.js"></script>
-    <script src="~/js/jquery.dataTables.min.js"></script>
-
-    <!--Highcharts libs-->
-    <script src="~/js/highcharts.js"></script>
-    <script src="~/js/highcharts-3d.js"></script>
-    <script src="~/js/exporting.js"></script>
-    <script src="~/js/export-data.js"></script>
-
-    <!--Graph insert-->
-    @RenderSection("graph", required: false)
-
-    <!--Table render-->
-    <script>
-        $(document).ready(function () {
-            $('#table').DataTable();
-        });
-    </script>
+    <script src="~/js/site.js"></script>
 </body>
 </html>

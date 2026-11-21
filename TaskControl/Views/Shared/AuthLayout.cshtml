@@ -1,0 +1,28 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Task Control</title>
+    <link rel="icon" href="~/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="~/fonts/atkinson-hyperlegible-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    @* The signed-out pages: log in, create an account and the two password pages *@
+    <div class="center">
+        <div class="sheet card">
+            <span class="brand">Task Control</span>
+            <p class="sub">@ViewData["Sub"]</p>
+            @if (TempData["Message"] != null)
+            {
+                <div class="notice @(ViewData["NoticeKind"] as string)" role="status">@TempData["Message"]</div>
+            }
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

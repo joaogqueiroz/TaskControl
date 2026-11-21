@@ -1,0 +1,7 @@
+@* A priority drawn as a highlighter stroke; the model is HIGH, MEDIUM or LOW. *@
+@model string
+@{
+    var key = (Model ?? "").ToLowerInvariant();
+    var label = key.Length > 0 ? char.ToUpperInvariant(key[0]) + key.Substring(1) : "";
+}
+<span class="hl @key">@label</span>

@@ -1,0 +1,17 @@
+@* The three priorities as highlighter strokes; the model is the chosen one (HIGH, MEDIUM or LOW). *@
+@model string
+@using TaskControl.Models
+<fieldset>
+    <legend>Priority</legend>
+    <div class="prio">
+        @foreach (var priority in new[] { TaskPriority.HIGH, TaskPriority.MEDIUM, TaskPriority.LOW })
+        {
+            var key = priority.ToString().ToLowerInvariant();
+            <label>
+                <input type="radio" name="Priority" value="@priority" checked="@(Model == priority.ToString())" />
+                <span class="hl @key">@(char.ToUpperInvariant(key[0]) + key.Substring(1))</span>
+            </label>
+        }
+    </div>
+    @Html.ValidationMessage("Priority")
+</fieldset>

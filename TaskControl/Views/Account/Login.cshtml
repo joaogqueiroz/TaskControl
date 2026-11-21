@@ -1,61 +1,24 @@
 ﻿@model TaskControl.Models.AccountLoginModel
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/AuthLayout.cshtml";
+    ViewData["Title"] = "Log in";
+    ViewData["Sub"] = "Log in to plan your month.";
+    ViewData["NoticeKind"] = "error";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
-    <!--CSS FILES HERE USING LINK TAG-->
-    <link href="~/css/bootstrap.css" rel="stylesheet" />
-</head>
-<body class="bg-dark text-white">
-    <div class="mt-5 col-md-4 offset-md-4">
-        <div class="card bg-secondary text-white">
-            <div class="card-body text-center rounded-0">
-                <h5>Login</h5>
-                <hr />
-                @if (TempData["Message"] != null)
-                {
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>@TempData["Message"]</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                }
-                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @autocomplete = "off" }))
-                {
-                    <label>Email</label>
-                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-                    <span class="text-danger">
-                        @Html.ValidationMessageFor(model => model.Email)
-                    </span>
-                    <br />
-
-                    <label>Password</label>
-                    @Html.PasswordFor(model => model.PassWord, new { @class = "form-control" })
-                    <span class="text-danger">
-                        @Html.ValidationMessageFor(model => model.PassWord)
-                    </span>
-                    <br />
-                    <div class="text-end">
-                        <a href="/Account/PasswordRecovery">Forget password</a>
-                    </div>
-
-                    <div class="d-grid">
-                        <input type="submit" class="btn btn-dark" value="Enter" />
-                        <br />
-                        <a href="/Account/Registration" class="btn btn-light">Register</a>
-                    </div>
-
-                }
-            </div>
-        </div>
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @autocomplete = "off" }))
+{
+    <label class="field">Email
+        @Html.TextBoxFor(model => model.Email, new { @type = "email", @autocomplete = "username" })
+        @Html.ValidationMessageFor(model => model.Email)
+    </label>
+    <label class="field">Password
+        @Html.PasswordFor(model => model.PassWord, new { @autocomplete = "current-password" })
+        @Html.ValidationMessageFor(model => model.PassWord)
+    </label>
+    <button type="submit" class="btn pen">Log in</button>
+    <div class="links">
+        <a href="/Account/PasswordRecovery">Forgot your password?</a>
+        <a href="/Account/Registration">Create an account</a>
     </div>
-    
-    <!--JS FILES HERE USING SCRIPT TAG-->
-<script src="~/js/bootstrap.bundle.js"></script>
-</body>
-</html>
+}

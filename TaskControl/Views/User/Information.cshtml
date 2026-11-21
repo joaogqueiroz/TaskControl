@@ -1,44 +1,23 @@
-﻿
+﻿@using System.Globalization
 @{
-    ViewData["Title"] = "MyData";
+    ViewData["Title"] = "Your account";
+    ViewData["Narrow"] = true;
     Layout = "~/Views/Shared/Layout.cshtml";
+    var us = CultureInfo.GetCultureInfo("en-US");
+    var since = TempData["RegistrationDate"]?.ToString();
+    if (DateTime.TryParseExact(since, "MM/dd/yyyy", us, DateTimeStyles.None, out var registered))
+    {
+        since = registered.ToString("MMM d, yyyy", us);
+    }
 }
 
-
-<h5>My Data</h5>
-<br />
-<br />
-
-<div class="row">
-    <div class="col-md-2 text-start">
-        User Id
-    </div>
-    <div class="col-md-10">
-        <strong>@TempData["UserID"]</strong>
-    </div>
+<h1>Your account</h1>
+<div class="sheet facts">
+    <div class="fact"><span>Name</span><strong>@TempData["Name"]</strong></div>
+    <div class="fact"><span>Email</span><strong>@TempData["Email"]</strong></div>
+    <div class="fact"><span>Member since</span><strong>@since</strong></div>
+    <div class="fact"><span>Account ID</span><code>@TempData["UserID"]</code></div>
 </div>
-<div class="row">
-    <div class="col-md-2 text-start">
-        User name
-    </div>
-    <div class="col-md-10">
-        <strong>@TempData["Name"]</strong>
-    </div>
+<div class="actions" style="margin-top:22px">
+    <a class="btn plain" href="/User/ChangePassword">Change password</a>
 </div>
-<div class="row">
-    <div class="col-md-2 text-start">
-        Email
-    </div>
-    <div class="col-md-10">
-        <strong>@TempData["Email"]</strong>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-2 text-start">
-        Registration date
-    </div>
-    <div class="col-md-10">
-        <strong>@TempData["RegistrationDate"]</strong>
-    </div>
-</div>
-
