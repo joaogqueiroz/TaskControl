@@ -2,29 +2,30 @@
 
 [![CI](https://github.com/joaogqueiroz/TaskControl/actions/workflows/ci.yml/badge.svg)](https://github.com/joaogqueiroz/TaskControl/actions/workflows/ci.yml)
 
-A full-stack task manager built with ASP.NET Core MVC. People create an account, register and edit their tasks with a date, time and priority, see their tasks in charts, and export reports to PDF.
+A full-stack task manager built with ASP.NET Core MVC. People create an account, register and edit their tasks with a date, time and priority, see the month on a ruler, and export reports to PDF.
 
 ## Screenshots
 
-![Tour: login, dashboard with the month's tasks by priority, task list, new task and the report page](docs/images/tour.gif)
+![Tour: login, the month with its ruler of tasks, the task list, a new task and the report page](docs/images/tour.gif)
 
-| Login | Dashboard | Tasks |
+| Login | Month | Tasks |
 | --- | --- | --- |
-| ![Login page](docs/images/login.png) | ![Dashboard with the month's tasks and a chart by priority](docs/images/dashboard.png) | ![Task list with update and delete](docs/images/tasks.png) |
+| ![Login page](docs/images/login.png) | ![The month: a ruler with a mark for each task, the tasks by date and the count by priority](docs/images/dashboard.png) | ![Task list with search, edit and delete](docs/images/tasks.png) |
 
 ## Features
 
 - **Accounts:** registration, login with cookie authentication, password change and password recovery by email. Passwords are hashed with ASP.NET Core Identity's `PasswordHasher` (PBKDF2 with a per-user salt).
 - **Password recovery:** the page gives the same answer whether or not the e-mail has an account. A registered e-mail gets a link with a random 256-bit token that works once and expires in 30 minutes; only its SHA-256 hash is stored, in `PASSWORD_RESET_TB`. The person chooses the new password on the link's page, and asking for a new link cancels the previous one. The link is built from the `AppUrl` setting, never from the request's Host header.
 - **Tasks:** create, list, edit and delete tasks with a name, description, date, time and priority. Every read, update and delete of a task is filtered by its owner, so another user's task id answers "Task not found". Deleting is a POST with an anti-forgery token.
-- **Dashboard:** Highcharts charts of the user's tasks.
-- **Reports:** PDF reports of tasks in a date range, generated with iText 7.
+- **Month:** the dashboard opens with a ruler of the days, a mark for each task (pink for high priority, yellow for medium, green for low) and today's position, the tasks by date, the count by priority and a button that exports the month as a PDF. The task list is searchable.
+- **Reports:** PDF reports of tasks in a date range, generated with iText 7.2 and built without the network.
+- **Front end:** Razor views with their own stylesheet and a small script (no Bootstrap, jQuery or chart library), Atkinson Hyperlegible served from `wwwroot/fonts`, and a layout that works down to a phone width.
 
 ## Architecture
 
 ```mermaid
 flowchart TB
-    browser(["Browser"]) -- "cookie auth" --> mvc["TaskControl<br/>ASP.NET Core MVC: controllers, view models,<br/>Razor views, Highcharts dashboard"]
+    browser(["Browser"]) -- "cookie auth" --> mvc["TaskControl<br/>ASP.NET Core MVC: controllers, view models,<br/>Razor views, own CSS"]
     mvc --> data["TaskControl.Data<br/>entities and repositories (Dapper)"]
     mvc --> reports["TaskControl.Reports<br/>PDF reports (iText 7)"]
     mvc --> messages["TaskControl.Messeges<br/>email service"]
@@ -62,7 +63,7 @@ sequenceDiagram
 
 ## Tech stack
 
-C# · .NET 8 · ASP.NET Core MVC · Razor · Dapper · SQL Server · iText 7 · Highcharts · DataTables · Bootstrap 5.3 · jQuery 3.7
+C# · .NET 8 · ASP.NET Core MVC · Razor · Dapper · SQL Server · iText 7 · plain CSS and JavaScript
 
 ## Running locally
 
@@ -79,7 +80,7 @@ dotnet run --project TaskControl
 
 ## Tests
 
-- `TaskControl.UnitTests` checks the form validation: required fields, lengths that match the database columns, e-mail format, the strong-password rule, dates and hours in the format the date and time inputs post, and report periods that end before they start. It also covers password recovery: the reset token and its hash, the same message for registered and unknown e-mails (also when sending fails), a link built from `AppUrl` even with a forged Host header, no password change until the link is used, and invalid or used tokens changing nothing. For tasks, the owner sent to the repository is always the signed-in user, and delete only accepts a POST with an anti-forgery token.
+- `TaskControl.UnitTests` checks the form validation: required fields, lengths that match the database columns, e-mail format, the strong-password rule, dates and hours in the format the date and time inputs post, and report periods that end before they start. It also covers password recovery: the reset token and its hash, the same message for registered and unknown e-mails (also when sending fails), a link built from `AppUrl` even with a forged Host header, no password change until the link is used, and invalid or used tokens changing nothing. The PDF report is built without the network, with and without tasks, and the report action returns it as a file. For tasks, the owner sent to the repository is always the signed-in user, and delete only accepts a POST with an anti-forgery token.
 - `TaskControl.IntegrationTests` runs the Dapper repositories against a real SQL Server. [Testcontainers](https://dotnet.testcontainers.org/) starts SQL Server 2022 in Docker and creates the tables from `SQLQuerys.sql`, so the only requirement is a running Docker. They cover sign-up, login and password changes with the hashed passwords, creating, listing, filtering by period, updating and deleting tasks, and the error cases: duplicate e-mails, values longer than their columns, tasks for users that do not exist, unknown ids and reversed periods. Password reset tokens work once, stop working when they expire or when a new one is requested, and change the password at the end of the flow. Another user's task cannot be read, updated or deleted.
 
 ```sh
