@@ -200,13 +200,9 @@ namespace TaskControl.Controllers
                     var taskReportPdf = new TaskReportPdf();
                     var pdf = taskReportPdf.ReportGenerator(data);
 
-                    //Downloading file!
-                    Response.Clear();
-                    Response.ContentType = "application/pdf";
-                    Response.Headers.Add("content-disposition", "attachment; filename=TaskReport.pdf");
-                    Response.Body.WriteAsync(pdf, 0, pdf.Length);
-                    Response.Body.Flush();
-                    Response.StatusCode = StatusCodes.Status200OK;
+                    //Downloading file. The response used to be written by hand and then a view was
+                    //returned on top of it, which made the server drop the connection.
+                    return File(pdf, "application/pdf", "TaskReport.pdf");
                 }
                 catch (Exception e)
                 {

@@ -91,6 +91,32 @@ namespace TaskControl.UnitTests
             Assert.Equal("Task not found.", controller.TempData["Message"]);
         }
 
+        [Fact]
+        public void Report_ValidPeriod_ReturnsThePdfAsAFile()
+        {
+            _tasks.Setup(r => r.GetByUserAndPeriod(_signedIn.UserID, It.IsAny<DateTime>(), It.IsAny<DateTime>()))
+                .Returns(new List<TaskEntity> { new TaskEntity { Name = "Sprint planning", Date = new DateTime(2026, 11, 3), Hour = new TimeSpan(9, 30, 0), Description = "Plan", Priority = "HIGH" } });
+
+            var result = Controller().Report(new TaskReportModel { StartDate = "2026-11-01", FinishDate = "2026-11-30" });
+
+            var file = Assert.IsType<FileContentResult>(result);
+            Assert.Equal("application/pdf", file.ContentType);
+            Assert.Equal("TaskReport.pdf", file.FileDownloadName);
+            Assert.Equal("%PDF", System.Text.Encoding.ASCII.GetString(file.FileContents, 0, 4));
+        }
+
+        [Fact]
+        public void Report_InvalidPeriod_ShowsTheFormAgainAndMakesNoPdf()
+        {
+            var controller = Controller();
+            controller.ModelState.AddModelError("FinishDate", "The finish date cannot be before the start date");
+
+            var result = controller.Report(new TaskReportModel { StartDate = "2026-11-30", FinishDate = "2026-11-01" });
+
+            Assert.IsType<ViewResult>(result);
+            _tasks.Verify(r => r.GetByUserAndPeriod(It.IsAny<Guid>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Never);
+        }
+
         // A GET link could delete a task from any page that gets the user to open it
         [Fact]
         public void Delete_OnlyAcceptsPostWithAnAntiForgeryToken()

@@ -1,5 +1,4 @@
 ﻿using TaskControl.Reports.Data;
-using iText.IO.Image;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
@@ -22,13 +21,9 @@ namespace TaskControl.Reports.Pdfs
 
             using (var document = new Document(pdf))
             {
-                //Logo
-
-                var img = ImageDataFactory.Create("https://seeklogo.com/images/C/corporate-company-logo-BAE6B43FF7-seeklogo.com.png");
-                document.Add(new Image(img));
-                document.Add(new Paragraph("\n"));
-
-                //Repor title
+                //Report title. There is no logo: the report used to download one from a third-party site
+                //on every request, and that site answers 403 to requests without a user agent.
+                document.Add(new Paragraph("Task Control").SetFontSize(14));
                 document.Add(new Paragraph("Tasks Report").SetFontSize(21));
 
                 //User data
