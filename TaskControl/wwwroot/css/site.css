@@ -49,6 +49,8 @@ a { color: var(--pen); }
 .top nav a[aria-current="page"], .me[aria-current="page"] { font-weight: 700; box-shadow: inset 0 -3px 0 var(--pen); }
 .me { color: var(--muted); font-size: 15px; text-decoration: none; }
 .me[aria-current="page"] { color: var(--ink); }
+.logout { margin: 0; }
+button.me { background: none; border: 0; padding: 0; font: inherit; font-size: 15px; cursor: pointer; }
 
 main { max-width: 1180px; margin: 0 auto; padding: 36px 28px 56px; }
 main.narrow { max-width: 640px; }

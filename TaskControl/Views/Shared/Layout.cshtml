@@ -25,7 +25,10 @@
                 <a href="/Task/Report" aria-current="@Current(controller == "Task" && action == "Report")">Report</a>
             </nav>
             <a class="me" href="/User/Information" aria-current="@Current(controller == "User")">@User.Identity.Name</a>
-            <a class="me" href="/Account/Logout">Log out</a>
+            @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @class = "logout" }))
+            {
+                <button type="submit" class="me">Log out</button>
+            }
         </div>
     </header>
 

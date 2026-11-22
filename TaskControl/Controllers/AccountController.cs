@@ -117,10 +117,12 @@ namespace TaskControl.Controllers
             }
             return View();
         }
-        public IActionResult Logout()
+        // A POST: a link or an image on another site could otherwise log the person out
+        [HttpPost]
+        public async Task<IActionResult> Logout()
         {
             //Delete user cookie
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
         }
         public IActionResult Passwordrecovery()
