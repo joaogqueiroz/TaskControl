@@ -63,11 +63,11 @@ sequenceDiagram
 
 ## Tech stack
 
-C# · .NET 8 · ASP.NET Core MVC · Razor · Dapper · SQL Server · iText 7 · plain CSS and JavaScript
+C# · .NET 10 · ASP.NET Core MVC · Razor · Dapper · SQL Server · iText 7 · plain CSS and JavaScript
 
 ## Running locally
 
-Requirements: .NET 8 SDK and SQL Server (LocalDB works).
+Requirements: .NET 10 SDK and SQL Server (LocalDB works).
 
 1. Create the database and run `SQLQuerys.sql` to create the `USER_TB`, `TASK_TB` and `PASSWORD_RESET_TB` tables. On an existing database, run just the `PASSWORD_RESET_TB` block; it only creates the table when it is missing.
 2. Set `ConnectionStrings:DB_context` in `TaskControl/appsettings.json` to your database.
